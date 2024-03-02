@@ -1,7 +1,7 @@
 import asyncio
 import pandas as pd
 import sqlite3
-from pyasic.miners.factory import get_miner
+from pyasic.miners.base import BaseMiner
 from typing import Any
 
 
@@ -40,11 +40,11 @@ def flatten_fans(fan_data: list[dict[str, Any]]) -> dict:
 
 
 async def write_data(
-    ip: str, data_file: str = "miner.db", table_name: str = "data", sleep_mins: int = 1
+    miner: BaseMiner,
+    data_file: str = "miner.db",
+    table_name: str = "data",
+    sleep_mins: int = 1,
 ) -> None:
-    miner = await get_miner(ip)
-    if miner is None:
-        return
     try:
         while True:
             miner_data = await miner.get_data()
