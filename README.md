@@ -27,12 +27,12 @@ If you have [saved miner data to SQLite](#saving-data), you can analyze it with 
 ##### Hashrate
 
 <!-- ![hashrate](examples/hashrate.png) -->
-<img src="examples/status.png" width="75%" alt="hashrate">
+<img src="examples/hashrate.png" width="75%" alt="hashrate">
 
 ##### Temperature
 
 <!-- ![temperature](examples/temperature.png) -->
-<img src="examples/status.png" width="75%" alt="temperature">
+<img src="examples/temperature.png" width="75%" alt="temperature">
 
 ---
 
