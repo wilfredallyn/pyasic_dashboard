@@ -12,6 +12,8 @@ python = "^3.9"
 pyasic = "^0.54.1"
 pandas = "^2.1"
 dash-bootstrap-components = "^1.5.0"
+gunicorn = "^21.2.0"
+python-dotenv = "^1.0.1"
 
 
 [build-system]
