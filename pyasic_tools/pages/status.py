@@ -6,7 +6,7 @@ from io import StringIO
 import json
 import pandas as pd
 import plotly.graph_objects as go
-from pyasic_dashboard.figs import get_status_fig
+from pyasic_tools.figs import get_status_fig
 
 
 dash.register_page(__name__, path="/", name="Status")

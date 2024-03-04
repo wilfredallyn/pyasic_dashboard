@@ -7,15 +7,14 @@ from flask import Flask
 import json
 import os
 import pandas as pd
-from pyasic_dashboard.db import load_db
-import sys
+from pyasic_tools.db import load_db
 
 
 dotenv_path = os.path.join(os.getcwd(), os.getenv("ENV_FILE", ".env.dev"))
 load_dotenv(dotenv_path=dotenv_path, override=True)
 
 APP_HOST = os.environ.get("HOST")
-APP_PORT = int(os.environ.get("PORT", "8050"))
+APP_PORT = int(os.environ.get("PORT"))
 APP_DEBUG = bool(os.environ.get("DEBUG"))
 DEV_TOOLS_PROPS_CHECK = bool(os.environ.get("DEV_TOOLS_PROPS_CHECK"))
 API_KEY = os.environ.get("API_KEY", None)
@@ -70,7 +69,7 @@ app.layout = dbc.Container(
                 "This is a ",
                 html.A(
                     " demo app ",
-                    href="https://github.com/wilfredallyn/pyasic-tools",
+                    href="https://github.com/wilfredallyn/pyasic_tools",
                     target="_blank",
                 ),
                 " for visualizing ",

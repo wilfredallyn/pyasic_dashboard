@@ -1,10 +1,10 @@
-# pyasic_dashboard
+# pyasic_tools
 
 _An interactive dashboard for visualizing [pyasic](https://github.com/UpstreamData/pyasic) data._
 
 ---
 
-### Demo
+### Live Demo
 
 [pyasic.tools](https://pyasic.tools/)
 
@@ -20,7 +20,7 @@ _An interactive dashboard for visualizing [pyasic](https://github.com/UpstreamDa
 
 If you have [saved miner data to SQLite](#saving-data), you can analyze it with interactive python visualizations in a plotly [dash](https://dash.plotly.com/) app.
 
-- `python pyasic_dashboard/app.py examples/change_power.db`
+- `python pyasic_tools/app.py examples/change_power.db`
 - Go to `http://localhost:8050/` in your browser
 - Currently, provides basic functionality of the [Braiins OS+ dashboard](https://youtu.be/-RiUFCiVPEs?si=D6ttU9vM8B5t3V5I&t=131) with overall status, hashrate, and temperature
 - More visualizations planned in future
@@ -49,7 +49,7 @@ Miner data can be saved to a SQLite database or CSV file. Data is preprocessed a
 ```python
 import asyncio
 from pyasic import get_miner
-from pyasic_dashboard.db import write_data
+from pyasic_tools.db import write_data
 
 if __name__ == "__main__":
     miner = await get_miner(ip="192.168.1.75")  # update ip address
@@ -62,7 +62,7 @@ if __name__ == "__main__":
     )
 ```
 
-Alternatively, you can use the command `python pyasic_dashboard/db/save_data.py 192.168.1.75 miner_data.db 1`
+Alternatively, you can use the command `python pyasic_tools/db/save_data.py 192.168.1.75 miner_data.db 1`
 
 ---
 

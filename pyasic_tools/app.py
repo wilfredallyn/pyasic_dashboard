@@ -5,7 +5,7 @@ from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
 import json
 import pandas as pd
-from pyasic_dashboard.db import load_db
+from pyasic_tools.db import load_db
 import sys
 
 

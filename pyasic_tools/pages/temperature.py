@@ -6,10 +6,10 @@ from io import StringIO
 import json
 import pandas as pd
 import plotly.graph_objects as go
-from pyasic_dashboard.figs import get_hashrate_fig
+from pyasic_tools.figs import get_temperature_fig
 
 
-dash.register_page(__name__, path="/hashrate", name="Hashrate")
+dash.register_page(__name__, path="/temperature", name="Temperature")
 
 
 def layout() -> html.Div:
@@ -19,7 +19,7 @@ def layout() -> html.Div:
                 [
                     dbc.Row(
                         [
-                            dcc.Graph(id="hashrate-graph"),
+                            dcc.Graph(id="temperature-graph"),
                         ]
                     )
                 ]
@@ -29,13 +29,13 @@ def layout() -> html.Div:
     )
 
 
-@callback(Output("hashrate-graph", "figure"), [Input("data-store", "data")])
-def update_hashrate_graph(data: str) -> go.Figure:
+@callback(Output("temperature-graph", "figure"), [Input("data-store", "data")])
+def update_temperature_graph(data: str) -> go.Figure:
     if data is None:
         return {}
 
     df_json = json.loads(data)
     df = pd.read_json(StringIO(df_json), orient="split")
 
-    fig = get_hashrate_fig(df)
+    fig = get_temperature_fig(df)
     return fig

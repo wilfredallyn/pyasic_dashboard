@@ -1,5 +1,5 @@
 import pandas as pd
-from pyasic_dashboard.db import flatten_fans, flatten_hashboards, preprocess_data
+from pyasic_tools.db import flatten_fans, flatten_hashboards, preprocess_data
 import unittest
 
 
