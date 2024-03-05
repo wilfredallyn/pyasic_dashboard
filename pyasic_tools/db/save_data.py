@@ -1,7 +1,7 @@
 import argparse
 import asyncio
 from pyasic import get_miner
-from pyasic_dashboard.db import write_data
+from pyasic_tools.db import write_data
 
 
 parser = argparse.ArgumentParser(description="Save miner data")

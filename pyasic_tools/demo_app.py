@@ -1,19 +1,35 @@
-import argparse
 import dash
 from dash import dcc, html
 from dash.dependencies import Input, Output
 import dash_bootstrap_components as dbc
+from dotenv import load_dotenv
+from flask import Flask
 import json
+import os
 import pandas as pd
-from pyasic_dashboard.db import load_db
-import sys
+from pyasic_tools.db import load_db
+
+
+dotenv_path = os.path.join(os.getcwd(), os.getenv("ENV_FILE", ".env.dev"))
+load_dotenv(dotenv_path=dotenv_path, override=True)
+
+APP_HOST = os.environ.get("HOST")
+APP_PORT = int(os.environ.get("PORT"))
+APP_DEBUG = bool(os.environ.get("DEBUG"))
+DEV_TOOLS_PROPS_CHECK = bool(os.environ.get("DEV_TOOLS_PROPS_CHECK"))
+API_KEY = os.environ.get("API_KEY", None)
+
+
+server = Flask(__name__)
 
 
 app = dash.Dash(
     __name__,
+    server=server,
     use_pages=True,
     external_stylesheets=[dbc.themes.SPACELAB],
     suppress_callback_exceptions=True,
+    title="Pyasic Tools",
 )
 
 page_order = ["Status", "Hashrate", "Temperature"]
@@ -41,13 +57,31 @@ app.layout = dbc.Container(
             [
                 dbc.Col(
                     html.Div(
-                        "pyasic dashboard",
+                        "pyasic tools",
                         style={"fontSize": 50, "textAlign": "center"},
                     )
                 )
             ]
         ),
         html.Hr(),
+        html.Div(
+            [
+                "This is a ",
+                html.A(
+                    " demo app ",
+                    href="https://github.com/wilfredallyn/pyasic_tools",
+                    target="_blank",
+                ),
+                " for visualizing ",
+                html.A(
+                    "pyasic ",
+                    href="https://github.com/UpstreamData/pyasic",
+                    target="_blank",
+                ),
+                "data",
+            ],
+            style={"textAlign": "center"},
+        ),
         dbc.Row(
             [
                 dbc.Col([sidebar], xs=4, sm=4, md=2, lg=2, xl=2, xxl=2),
@@ -58,34 +92,21 @@ app.layout = dbc.Container(
     ],
     fluid=True,
 )
-
-parser = argparse.ArgumentParser(description="miner data dashboard")
-parser.add_argument(
-    "data_file",
-    type=str,
-    nargs="?",
-    default="miner_data.db",
-    help="File path to miner data",
-)
-parser.add_argument(
-    "table_name", type=str, nargs="?", default="data", help="File path to miner data"
-)
-args = parser.parse_args()
+server = app.server
 
 
 @app.callback(Output("data-store", "data"), [Input("url", "pathname")])
 def load_data(pathname: str) -> str:
-    df = load_db(args.data_file, table_name=args.table_name)
+    db_file = os.getenv("DEMO_DB_FILE", "../examples/change_power.db")
+    df = load_db(db_file, table_name="data")
     # json serialize for dcc.store
     return json.dumps(df.to_json(orient="split"))
 
 
 if __name__ == "__main__":
-    try:
-        df = load_db(args.data_file, table_name=args.table_name)
-    except pd.errors.DatabaseError:
-        print(
-            f"Could not find database '{args.data_file}' or table '{args.table_name}'"
-        )
-        sys.exit(1)
-    app.run_server(debug=True)
+    app.run_server(
+        host=APP_HOST,
+        port=APP_PORT,
+        debug=APP_DEBUG,
+        dev_tools_props_check=DEV_TOOLS_PROPS_CHECK,
+    )
