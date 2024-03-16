@@ -106,3 +106,26 @@ def get_temperature_fig(df: pd.DataFrame) -> go.Figure:
         secondary_y=False,
     )
     return fig
+
+
+def get_efficiency_fig(df: pd.DataFrame) -> go.Figure:
+    fig = make_subplots(specs=[[{"secondary_y": True}]])
+    fig.add_trace(
+        go.Scatter(x=df["datetime"], y=df["wattage"], name="Wattage"),
+        secondary_y=False,
+    )
+    fig.add_trace(
+        go.Scatter(x=df["datetime"], y=df["efficiency"], name="Efficiency"),
+        secondary_y=True,
+    )
+
+    fig.update_layout(
+        title="Wattage and Efficiency over Time",
+        xaxis_title="Time",
+    )
+    fig.update_yaxes(title_text="Wattage (w)", secondary_y=False)
+    fig.update_yaxes(title_text="Efficiency (j/th)", secondary_y=True)
+
+    efficiency_max = min(df["efficiency"].max(), 200)
+    fig.update_yaxes(range=[0, efficiency_max], secondary_y=True)
+    return fig
